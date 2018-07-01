@@ -1,0 +1,1 @@
+INSERT INTO `nideshop_ads` VALUES (1,1,1,'合作 谁是你的菜','','http://yanxuan.nosdn.127.net/65091eebc48899298171c2eb6696fe27.jpg','合作 谁是你的菜',0,1),(2,1,1,'活动 美食节','','http://yanxuan.nosdn.127.net/bff2e49136fcef1fd829f5036e07f116.jpg','活动 美食节',0,1),(3,1,1,'活动 母亲节','','http://yanxuan.nosdn.127.net/8e50c65fda145e6dd1bf4fb7ee0fcecc.jpg','活动 母亲节',0,1);

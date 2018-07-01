@@ -2,12 +2,12 @@
  * @Author: qiao
  * @Date: 2018-07-01 13:13:34
  * @Last Modified by: qiao
- * @Last Modified time: 2018-07-01 13:55:19
+ * @Last Modified time: 2018-07-01 19:10:39
  * 品牌表
  */
 
 import { Application } from 'egg';
-import { CHAR, DECIMAL, INTEGER, TINYINT } from 'sequelize';
+import { DECIMAL, INTEGER, STRING, TINYINT } from 'sequelize';
 
 export default (app: Application) => {
   const sequelize = app.model;
@@ -22,25 +22,25 @@ export default (app: Application) => {
     },
 
     name: {
-      type: CHAR(255),
+      type: STRING(255),
       allowNull: false,
       defaultValue: '',
     },
 
     list_pic_url: {
-      type: CHAR(255),
+      type: STRING(255),
       allowNull: false,
       defaultValue: '',
     },
 
     simple_desc: {
-      type: CHAR(255),
+      type: STRING(255),
       allowNull: false,
       defaultValue: '',
     },
 
     pic_url: {
-      type: CHAR(255),
+      type: STRING(255),
       allowNull: false,
       defaultValue: '',
     },
@@ -66,7 +66,7 @@ export default (app: Application) => {
     },
 
     app_list_pic_url: {
-      type: CHAR(255),
+      type: STRING(255),
       allowNull: false,
       defaultValue: '',
     },
@@ -79,7 +79,7 @@ export default (app: Application) => {
     },
 
     new_pic_url: {
-      type: CHAR(255),
+      type: STRING(255),
       allowNull: false,
       defaultValue: '',
     },
