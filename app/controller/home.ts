@@ -21,10 +21,9 @@ export default class HomeController extends Controller {
     try {
       // get请求的参数验证 ctx.request.query query的参数类型全都是string，否则无法验证通过
       // post请求的参数验证 ctx.request.body
-      await this.ctx.validate(rules, this.ctx.request.body);
+      this.ctx.validate(rules, this.ctx.request.query);
       this.ctx.response.body = 'success';
     } catch (e) {
-      this.ctx.logger.info(e.message);
       throw new StatusError(e.message, StatusError.ERROR_STATUS.REQUEST_PARAMS_ERROR);
     }
   }

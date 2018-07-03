@@ -2,7 +2,7 @@
  * @Author: qiao 
  * @Date: 2018-07-01 11:28:01 
  * @Last Modified by: qiao
- * @Last Modified time: 2018-07-01 12:48:04
+ * @Last Modified time: 2018-07-03 14:53:51
  * 自定义type
  */
 import { Sequelize } from 'sequelize';
@@ -19,6 +19,7 @@ declare module 'egg' {
 
   interface Context {
     // model: IModel;
-    model: Sequelize
+    model: Sequelize;
+    validate: (rules: Object, body: Object) => Promise<any>;
   }
 }

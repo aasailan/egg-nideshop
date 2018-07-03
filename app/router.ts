@@ -10,4 +10,11 @@ export default (app: Application) => {
 
   // 商城首页
   router.get(apiPrefix + '/index/index', controller.index.index);
+
+  // 主题列表页
+  router.get(apiPrefix + '/topic/list', controller.topic.list);
+  // 主题详情页
+  router.get(apiPrefix + '/topic/detail', controller.topic.detail);
+  // 主题相关
+  router.get(apiPrefix + '/topic/related', controller.topic.relate);
 };
