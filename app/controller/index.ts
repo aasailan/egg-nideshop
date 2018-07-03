@@ -2,7 +2,7 @@
  * @Author: qiao
  * @Date: 2018-07-01 19:21:47
  * @Last Modified by: qiao
- * @Last Modified time: 2018-07-03 10:02:23
+ * @Last Modified time: 2018-07-03 11:53:33
  * 首页控制器
  */
 import { Controller } from 'egg';
@@ -51,7 +51,7 @@ export default class IndexCtrl extends Controller {
           return results.map((result) => result.id);
         });
 
-        this.ctx.logger.info(childCategoryIds);
+        // this.ctx.logger.info(childCategoryIds);
         // 获取同属一级分类的二级分类列表的货物
         const categoryGoods = await model.Good.findAll({
           attributes: ['id', 'name', 'list_pic_url', 'retail_price'],

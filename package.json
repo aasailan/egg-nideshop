@@ -30,10 +30,11 @@
     "mysql2": "^1.5.3"
   },
   "devDependencies": {
+    "@types/egg-mock": "^3.0.3",
     "@types/mocha": "^2.2.40",
     "@types/node": "^7.0.12",
     "@types/sequelize": "^4.27.23",
-    "@types/supertest": "^2.0.0",
+    "@types/supertest": "^2.0.4",
     "autod": "^3.0.1",
     "autod-egg": "^1.1.0",
     "egg-bin": "^4.6.2",
