@@ -2,12 +2,33 @@
  * @Author: qiao
  * @Date: 2018-07-01 13:13:34
  * @Last Modified by: qiao
- * @Last Modified time: 2018-07-01 19:10:39
+ * @Last Modified time: 2018-07-02 14:09:51
  * 品牌表
  */
 
 import { Application } from 'egg';
-import { DECIMAL, INTEGER, STRING, TINYINT } from 'sequelize';
+import Sequelize, { DECIMAL, INTEGER, STRING, TINYINT, Instance } from 'sequelize';
+
+interface IBrandAttr {
+  id: number;
+  name: string;
+  list_pic_url: string;
+  simple_desc: string;
+  pic_url: string;
+  sort_order: number;
+  is_show: number;
+  floor_price: number;
+  app_list_pic_url: string;
+  is_new: number;
+  new_pic_url: string;
+  new_sort_order: number;
+}
+
+interface IBrandInst extends Instance<IBrandAttr>, IBrandAttr {
+}
+
+interface IBrandModel extends Sequelize.Model<IBrandInst, IBrandAttr> {
+}
 
 export default (app: Application) => {
   const sequelize = app.model;
@@ -100,7 +121,7 @@ export default (app: Application) => {
         fields: ['is_show'],
       },
     ],
-  });
+  }) as IBrandModel;
 
   return brand;
 };

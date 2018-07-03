@@ -2,17 +2,35 @@
  * @Author: qiao
  * @Date: 2018-07-01 14:20:25
  * @Last Modified by: qiao
- * @Last Modified time: 2018-07-01 19:10:22
+ * @Last Modified time: 2018-07-02 12:03:22
  * 广告表
  */
 import { Application } from 'egg';
-import { INTEGER, SMALLINT, STRING, TEXT, TINYINT } from 'sequelize';
+import Sequelize, { INTEGER, SMALLINT, STRING, TEXT, TINYINT, Instance } from 'sequelize';
+
+interface IAdAttr {
+  id: number;
+  ad_position_id: number;
+  media_type: number;
+  name: string;
+  link: string;
+  image_url: string;
+  content: string;
+  end_time: number;
+  enabled: number;
+}
+
+interface IAdInst extends Instance<IAdAttr>, IAdAttr {
+}
+
+interface IAdModel extends Sequelize.Model<IAdInst, IAdAttr> {
+}
 
 export default (app: Application) => {
   const sequelize = app.model;
   const tablePrefix = app.config.sequelize.tablePrefix;
 
-  const ad = sequelize.define(tablePrefix + 'ad', {
+  const ad = sequelize.define<IAdInst, IAdAttr>(tablePrefix + 'ad', {
     id: {
       type: SMALLINT(5).UNSIGNED,
       allowNull: false,
@@ -81,7 +99,7 @@ export default (app: Application) => {
         fields: ['enabled'],
       },
     ],
-  });
+  }) as IAdModel;
 
   return ad;
 };

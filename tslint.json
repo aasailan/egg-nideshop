@@ -33,7 +33,9 @@
       true,
       "allow-leading-underscore"
     ],
-    "align": [true, "statements"]
+    "align": [true, "statements"],
+    "ordered-imports": [false],
+    "no-angle-bracket-type-assertion": [false]
   }
 }
 

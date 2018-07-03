@@ -2,10 +2,33 @@
  * @Author: qiao
  * @Date: 2018-07-01 18:22:07
  * @Last Modified by: qiao
- * @Last Modified time: 2018-07-01 18:40:25
+ * @Last Modified time: 2018-07-02 16:45:42
  */
 import { Application } from 'egg';
-import { DECIMAL, INTEGER, STRING, TEXT, TINYINT  } from 'sequelize';
+import Sequelize, { DECIMAL, INTEGER, STRING, TEXT, TINYINT, Instance  } from 'sequelize';
+
+interface ITopicAttr {
+  id: number;
+  title: string;
+  content: string;
+  avatar: string;
+  item_pic_url: string;
+  subtitle: string;
+  topic_category_id: number;
+  price_info: number;
+  read_count: string;
+  scene_pic_url: string;
+  topic_template_id: number;
+  topic_tag_id: number;
+  sort_order: number;
+  is_show: number;
+}
+
+interface ITopicInst extends Instance<ITopicAttr>, ITopicAttr {
+}
+
+interface ITopicModel extends Sequelize.Model<ITopicInst, ITopicAttr> {
+}
 
 export default (app: Application) => {
   const sequelize = app.model;
@@ -98,7 +121,7 @@ export default (app: Application) => {
     timestamps: false,
     charset: 'utf8mb4',
     initialAutoIncrement: '316',
-  });
+  }) as ITopicModel;
 
   return topic;
 };

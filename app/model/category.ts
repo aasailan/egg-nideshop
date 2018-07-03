@@ -2,11 +2,35 @@
  * @Author: qiao
  * @Date: 2018-07-01 18:43:58
  * @Last Modified by: qiao
- * @Last Modified time: 2018-07-01 19:00:59
+ * @Last Modified time: 2018-07-02 14:20:22
  * 商品分类表
  */
 import { Application } from 'egg';
-import { INTEGER, STRING, TINYINT } from 'sequelize';
+import Sequelize, { INTEGER, STRING, TINYINT, Instance } from 'sequelize';
+
+interface ICategoryAttr {
+  id: number;
+  name: string;
+  keywords: string;
+  front_desc: string;
+  parent_id: number;
+  sort_order: number;
+  show_index: number;
+  is_show: number;
+  banner_url: string;
+  icon_url: string;
+  img_url: string;
+  wap_banner_url: string;
+  level: string;
+  type: number;
+  front_name: string;
+}
+
+interface ICategoryInst extends Instance<ICategoryAttr>, ICategoryAttr {
+}
+
+interface ICategoryModel extends Sequelize.Model<ICategoryInst, ICategoryAttr> {
+}
 
 export default (app: Application) => {
   const sequelize = app.model;
@@ -44,6 +68,7 @@ export default (app: Application) => {
       defaultValue: 0,
     },
 
+    // 这个为什么是TINYINT(1),但是默认值是50
     sort_order: {
       type: TINYINT(1).UNSIGNED,
       allowNull: false,
@@ -108,7 +133,7 @@ export default (app: Application) => {
         fields: ['parent_id'],
       },
     ],
-  });
+  }) as ICategoryModel;
 
   return category;
 };

@@ -2,10 +2,24 @@
  * @Author: qiao
  * @Date: 2018-07-01 15:13:10
  * @Last Modified by: qiao
- * @Last Modified time: 2018-07-01 19:11:01
+ * @Last Modified time: 2018-07-02 16:18:53
  */
 import { Application } from 'egg';
-import { INTEGER, STRING } from 'sequelize';
+import Sequelize, { INTEGER, STRING, Instance } from 'sequelize';
+
+interface IChannelAttr {
+  id: number;
+  name: string;
+  url: string;
+  icon_url: string;
+  sort_order: number;
+}
+
+interface IChannelInst extends Instance<IChannelAttr>, IChannelAttr {
+}
+
+interface IChannelModel extends Sequelize.Model<IChannelInst, IChannelAttr> {
+}
 
 export default (app: Application) => {
   const sequelize = app.model;
@@ -46,7 +60,7 @@ export default (app: Application) => {
     timestamps: false,
     initialAutoIncrement: '6',
     charset: 'utf8mb4',
-  });
+  }) as IChannelModel;
 
   return channel;
 };

@@ -7,4 +7,7 @@ export default (app: Application) => {
   router.get('/', controller.home.index);
 
   router.get(apiPrefix + '/test', controller.home.test);
+
+  // 商城首页
+  router.get(apiPrefix + '/index/index', controller.index.index);
 };

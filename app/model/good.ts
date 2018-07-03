@@ -2,11 +2,50 @@
  * @Author: qiao
  * @Date: 2018-07-01 09:41:41
  * @Last Modified by: qiao
- * @Last Modified time: 2018-07-01 13:55:46
+ * @Last Modified time: 2018-07-02 16:40:20
  * 货物表
  */
 import { Application } from 'egg';
-import * as Sequelize from 'sequelize';
+import Sequelize, { INTEGER, STRING, DECIMAL, TINYINT, Instance } from 'sequelize';
+
+interface IGoodAttr {
+  id: number;
+  category_id: number;
+  goods_sn: string;
+  name: string;
+  brand_id: number;
+  goods_number: number;
+  keywords: string;
+  goods_brief: string;
+  goods_desc: string;
+  is_on_sale: number;
+  add_time: number;
+  sort_order: number;
+  is_delete: number;
+  attribute_category: number;
+  counter_price: number;
+  extra_price: number;
+  is_new: number;
+  goods_unit: string;
+  primary_pic_url: string;
+  list_pic_url: string;
+  retail_price: number;
+  sell_volume: number;
+  primary_product_id: number;
+  unit_price: number;
+  promotion_desc: string;
+  promotion_tag: string;
+  app_exclusive_price: number;
+  is_app_exclusive: number;
+  is_limited: number;
+  is_hot: number;
+}
+
+interface IGoodInst extends Instance<IGoodAttr>, IGoodAttr {
+}
+
+interface IGoodModel extends Sequelize.Model<IGoodInst, IGoodAttr> {
+}
 
 export default (app: Application) => {
   const sequelize = app.model;
@@ -15,32 +54,32 @@ export default (app: Application) => {
   // TODO: mysql里面这张表定义ENGINE，这里没有定义
   const good = sequelize.define(tablePrefix + 'good', {
     id: {
-      type: Sequelize.INTEGER(11).UNSIGNED,
+      type: INTEGER(11).UNSIGNED,
       primaryKey: true,
     },
 
     category_id: {
-      type: Sequelize.INTEGER(11).UNSIGNED,
+      type: INTEGER(11).UNSIGNED,
       allowNull: false,
       defaultValue: 0,
       comment: '货物所属分类id',
     },
 
     goods_sn: {
-      type: Sequelize.CHAR(60),
+      type: STRING(60),
       allowNull: false,
       defaultValue: '',
       comment: '??',
     },
 
     name: {
-      type: Sequelize.CHAR(120),
+      type: STRING(120),
       allowNull: false,
       defaultValue: '',
     },
 
     brand_id: {
-      type: Sequelize.INTEGER(11).UNSIGNED,
+      type: INTEGER(11).UNSIGNED,
       allowNull: false,
       defaultValue: 0,
     },
@@ -52,13 +91,13 @@ export default (app: Application) => {
     },
 
     keywords: {
-      type: Sequelize.CHAR(255),
+      type: STRING(255),
       allowNull: false,
       defaultValue: '',
     },
 
     goods_brief: {
-      type: Sequelize.CHAR(255),
+      type: STRING(255),
       allowNull: false,
       defaultValue: '',
     },
@@ -69,14 +108,14 @@ export default (app: Application) => {
     },
 
     is_on_sale: {
-      type: Sequelize.TINYINT(1).UNSIGNED,
+      type: TINYINT(1).UNSIGNED,
       allowNull: false,
       defaultValue: 1,
       comment: '货物是否正在上架：1 正在上架，0 已下架',
     },
 
     add_time: {
-      type: Sequelize.INTEGER(10).UNSIGNED,
+      type: INTEGER(10).UNSIGNED,
       allowNull: false,
       defaultValue: 0,
       comment: '货物添加时间',
@@ -90,118 +129,118 @@ export default (app: Application) => {
     },
 
     is_delete: {
-      type: Sequelize.TINYINT(1).UNSIGNED,
+      type: TINYINT(1).UNSIGNED,
       allowNull: false,
       defaultValue: 0,
       comment: '是否被删除：0 没有被删除， 1被删除',
     },
 
     attribute_category: {
-      type: Sequelize.INTEGER(11).UNSIGNED,
+      type: INTEGER(11).UNSIGNED,
       allowNull: false,
       defaultValue: 0,
       comment: '属性分类？？',
     },
 
     counter_price: {
-      type: Sequelize.DECIMAL(10, 2).UNSIGNED,
+      type: DECIMAL(10, 2).UNSIGNED,
       allowNull: false,
       defaultValue: 0,
       comment: '专柜价格',
     },
 
     extra_price: {
-      type: Sequelize.DECIMAL(10, 2).UNSIGNED,
+      type: DECIMAL(10, 2).UNSIGNED,
       allowNull: false,
       defaultValue: 0,
       comment: '附加价格',
     },
 
     is_new: {
-      type: Sequelize.TINYINT(1).UNSIGNED,
+      type: TINYINT(1).UNSIGNED,
       allowNull: false,
       defaultValue: 0,
       comment: '是否新品上架： ？？',
     },
 
     goods_unit: {
-      type: Sequelize.CHAR(45),
+      type: STRING(45),
       allowNull: false,
       comment: '商品单位',
     },
 
     primary_pic_url: {
-      type: Sequelize.CHAR(255),
+      type: STRING(255),
       allowNull: false,
       comment: '商品主图',
     },
 
     list_pic_url: {
-      type: Sequelize.CHAR(255),
+      type: STRING(255),
       allowNull: false,
       comment: '商品列表图',
     },
 
     retail_price: {
-      type: Sequelize.DECIMAL(10, 2).UNSIGNED,
+      type: DECIMAL(10, 2).UNSIGNED,
       allowNull: false,
       defaultValue: 0,
       comment: '零售价格',
     },
 
     sell_volume: {
-      type: Sequelize.INTEGER(11).UNSIGNED,
+      type: INTEGER(11).UNSIGNED,
       allowNull: false,
       defaultValue: 0,
       comment: '销售量',
     },
 
     primary_product_id: {
-      type: Sequelize.INTEGER(11).UNSIGNED,
+      type: INTEGER(11).UNSIGNED,
       allowNull: false,
       defaultValue: 0,
       comment: '主sku　product_id',
     },
 
     unit_price: {
-      type: Sequelize.DECIMAL(10, 2),
+      type: DECIMAL(10, 2),
       allowNull: false,
       defaultValue: 0,
       comment: '单位价格，单价',
     },
 
     promotion_desc: {
-      type: Sequelize.CHAR(255),
+      type: STRING(255),
       allowNull: false,
       comment: '促销描述',
     },
 
     promotion_tag: {
-      type: Sequelize.CHAR(45),
+      type: STRING(45),
       allowNull: false,
       comment: '促销标签',
     },
 
     app_exclusive_price: {
-      type: Sequelize.DECIMAL(10, 2).UNSIGNED,
+      type: DECIMAL(10, 2).UNSIGNED,
       allowNull: false,
       comment: 'APP专享价',
     },
 
     is_app_exclusive: {
-      type: Sequelize.TINYINT(1).UNSIGNED,
+      type: TINYINT(1).UNSIGNED,
       allowNull: false,
       comment: '是否是APP专属',
     },
 
     is_limited: {
-      type: Sequelize.TINYINT(1).UNSIGNED,
+      type: TINYINT(1).UNSIGNED,
       allowNull: false,
       comment: '？？？',
     },
 
     is_hot: {
-      type: Sequelize.TINYINT(1).UNSIGNED,
+      type: TINYINT(1).UNSIGNED,
       allowNull: false,
       defaultValue: 0,
       comment: '是否正在热卖？？？',
@@ -232,7 +271,7 @@ export default (app: Application) => {
         fields: ['sort_order'],
       },
     ],
-  });
+  }) as IGoodModel;
 
   return good;
 };

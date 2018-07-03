@@ -2,11 +2,26 @@
  * @Author: qiao
  * @Date: 2018-07-01 14:46:28
  * @Last Modified by: qiao
- * @Last Modified time: 2018-07-01 19:08:38
+ * @Last Modified time: 2018-07-02 21:36:02
  * 广告位置表
  */
 import { Application } from 'egg';
-import { SMALLINT, STRING, TINYINT } from 'sequelize';
+import Sequelize, { SMALLINT, STRING, TINYINT, Instance } from 'sequelize';
+
+// 属性接口
+interface IAdPostionAttr {
+  id: number;
+  name: string;
+  width: number;
+  height: number;
+  desc: string;
+}
+
+interface IAdPositionInst extends Instance<IAdPostionAttr>, IAdPostionAttr {
+}
+
+interface IAdPositionModel extends Sequelize.Model<IAdPositionInst, IAdPostionAttr> {
+}
 
 export default (app: Application) => {
   const sequelize = app.model;
@@ -47,7 +62,7 @@ export default (app: Application) => {
     timestamps: false,
     initialAutoIncrement: '2',
     charset: 'utf8mb4',
-  });
+  }) as IAdPositionModel;
 
   return adPosition;
 };

@@ -2,7 +2,7 @@
  * @Author: qiao
  * @Date: 2018-07-01 11:15:47
  * @Last Modified by: qiao
- * @Last Modified time: 2018-07-01 14:43:23
+ * @Last Modified time: 2018-07-02 21:37:49
  * app启动文件，用于自定义启动时的初始化工作,只返回一个函数
  */
 import { Application } from 'egg';
@@ -14,7 +14,7 @@ import { Application } from 'egg';
 
     if (app.env === 'local') {
       app.logger.info('sync db ...');
-      await app.model.sync({ force: true });
+      await app.model.sync();
       app.logger.info('sync db completed ...');
     }
    });
