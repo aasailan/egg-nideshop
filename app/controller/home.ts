@@ -11,17 +11,23 @@ export default class HomeController extends Controller {
   public async test() {
     const rules = {
       age: {
-        type: 'string',
+        type: 'numberString',
+        required: false,
+        field: 'age',
+        min: 0,
+        max: 10,
       },
       name: {
         type: 'string',
       },
     };
-    this.ctx.logger.debug(this.ctx.request.query);
+    this.ctx.logger.info(this.ctx.request.query);
+    // this.ctx.logger.debug(this.ctx.request.queries);
     try {
       // get请求的参数验证 ctx.request.query query的参数类型全都是string，否则无法验证通过
       // post请求的参数验证 ctx.request.body
       this.ctx.validate(rules, this.ctx.request.query);
+      this.ctx.logger.info(this.ctx.request.query);
       this.ctx.response.body = 'success';
     } catch (e) {
       throw new StatusError(e.message, StatusError.ERROR_STATUS.REQUEST_PARAMS_ERROR);

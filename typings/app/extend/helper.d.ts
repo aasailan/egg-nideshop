@@ -4,7 +4,8 @@
 import ExtendObject from '../../../app/extend/helper';
 declare module 'egg' {
   interface IHelper {
-    paginate: typeof ExtendObject.paginate;
+    pageOffset: typeof ExtendObject.pageOffset;
+    pageTotal: typeof ExtendObject.pageTotal;
     validateParams: typeof ExtendObject.validateParams;
   }
 }

@@ -14,7 +14,8 @@ import { Sequelize } from 'sequelize';
 
 declare module 'egg' {
   interface Application {
-    model: Sequelize
+    model: Sequelize;
+    validator: any;
   }
 
   interface Context {

@@ -17,4 +17,8 @@ export default (app: Application) => {
   router.get(apiPrefix + '/topic/detail', controller.topic.detail);
   // 主题相关
   router.get(apiPrefix + '/topic/related', controller.topic.relate);
+
+  // 评论列表
+  router.get(apiPrefix + '/comment/list', controller.comment.list);
+  router.get(apiPrefix + '/comment/count', controller.comment.count);
 };
