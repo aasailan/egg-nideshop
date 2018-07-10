@@ -2,13 +2,13 @@
  * @Author: qiao
  * @Date: 2018-07-01 18:43:58
  * @Last Modified by: qiao
- * @Last Modified time: 2018-07-02 14:20:22
+ * @Last Modified time: 2018-07-10 12:03:21
  * 商品分类表
  */
 import { Application } from 'egg';
 import Sequelize, { INTEGER, STRING, TINYINT, Instance } from 'sequelize';
 
-interface ICategoryAttr {
+export interface ICategoryAttr {
   id: number;
   name: string;
   keywords: string;
@@ -24,9 +24,11 @@ interface ICategoryAttr {
   level: string;
   type: number;
   front_name: string;
+  [key: string]: any;
 }
 
-interface ICategoryInst extends Instance<ICategoryAttr>, ICategoryAttr {
+export interface ICategoryInst extends Instance<ICategoryAttr>, ICategoryAttr {
+  [key: string]: any;
 }
 
 interface ICategoryModel extends Sequelize.Model<ICategoryInst, ICategoryAttr> {

@@ -21,4 +21,9 @@ export default (app: Application) => {
   // 评论列表
   router.get(apiPrefix + '/comment/list', controller.comment.list);
   router.get(apiPrefix + '/comment/count', controller.comment.count);
+
+  // 商品分类列表
+  router.get(apiPrefix + '/catalog/index', controller.catalog.index);
+  // 商品当前分类详情
+  router.get(apiPrefix + '/catalog/current', controller.catalog.current);
 };
