@@ -35,7 +35,10 @@
     ],
     "align": [true, "statements"],
     "ordered-imports": [false],
-    "no-angle-bracket-type-assertion": [false]
+    "no-angle-bracket-type-assertion": [false],
+    
+    "no-unused-expression": [false],
+    "arrow-parens": [false]
   }
 }
 

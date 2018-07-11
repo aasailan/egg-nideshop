@@ -2,7 +2,7 @@
  * @Author: qiao
  * @Date: 2018-07-01 18:43:58
  * @Last Modified by: qiao
- * @Last Modified time: 2018-07-10 12:03:21
+ * @Last Modified time: 2018-07-10 20:44:07
  * 商品分类表
  */
 import { Application } from 'egg';
@@ -32,6 +32,8 @@ export interface ICategoryInst extends Instance<ICategoryAttr>, ICategoryAttr {
 }
 
 interface ICategoryModel extends Sequelize.Model<ICategoryInst, ICategoryAttr> {
+  getChildCategoryId: (parentId: number) => Promise<ICategoryInst[] | null>;
+  getCategoryWhereIn: (categoryId: number) => Promise<number[] | null>;
 }
 
 export default (app: Application) => {
@@ -136,6 +138,31 @@ export default (app: Application) => {
       },
     ],
   }) as ICategoryModel;
+
+  /**
+   * @description 查询指定分类id的子分类id
+   * @param {number} parentId: 需要查找的父类id
+   * @return {Promise<ICategoryInst[] | null>} childIds
+   */
+  category.getChildCategoryId = async (parentId: number) => {
+    const childIds = await category.findAll({
+      where: { parent_id: parentId },
+      attributes: ['id'],
+    });
+    return childIds;
+  };
+
+  /**
+   * @description 查询指定分类id的子类id以及包括了自身id的数组
+   * @param {number} categoryId 需要查找的id
+   * @returns {Promise<number[] | null>} childIds
+   */
+  category.getCategoryWhereIn = async (categoryId: number) => {
+    const childIds = await category.getChildCategoryId(categoryId)
+      .then(categoryInsts => categoryInsts.map(categoryInst => categoryInst.id));
+    childIds.push(categoryId);
+    return childIds;
+  };
 
   return category;
 };

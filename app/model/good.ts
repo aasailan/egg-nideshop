@@ -2,13 +2,13 @@
  * @Author: qiao
  * @Date: 2018-07-01 09:41:41
  * @Last Modified by: qiao
- * @Last Modified time: 2018-07-02 16:40:20
+ * @Last Modified time: 2018-07-11 16:31:22
  * 货物表
  */
 import { Application } from 'egg';
 import Sequelize, { INTEGER, STRING, DECIMAL, TINYINT, Instance } from 'sequelize';
 
-interface IGoodAttr {
+export interface IGoodAttr {
   id: number;
   category_id: number;
   goods_sn: string;
@@ -52,7 +52,7 @@ export default (app: Application) => {
   const tablePrefix = app.config.sequelize.tablePrefix;
 
   // TODO: mysql里面这张表定义ENGINE，这里没有定义
-  const good = sequelize.define(tablePrefix + 'good', {
+  const good = sequelize.define(tablePrefix + 'goods_gallery', {
     id: {
       type: INTEGER(11).UNSIGNED,
       primaryKey: true,
@@ -272,6 +272,11 @@ export default (app: Application) => {
       },
     ],
   }) as IGoodModel;
+
+  good.getSpecificationList = (goodsId: number) => {
+    // 根据sku商品信息，查找规格值列表
+    
+  }
 
   return good;
 };
