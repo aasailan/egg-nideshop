@@ -26,4 +26,15 @@ export default (app: Application) => {
   router.get(apiPrefix + '/catalog/index', controller.catalog.index);
   // 商品当前分类详情
   router.get(apiPrefix + '/catalog/current', controller.catalog.current);
+
+  // 当前正在销售的货物总数
+  router.get(apiPrefix + '/goods/count', controller.good.count);
+  // 获取分类下的商品
+  router.get(apiPrefix + '/goods/category', controller.good.category);
+  // 搜索货物列表
+  router.get(apiPrefix + '/goods/list', controller.good.list);
+  // 货物详情
+  router.get(apiPrefix + '/goods/detail', controller.good.detail); ;
+  // 相关货物列表
+  router.get(apiPrefix + '/goods/related', controller.good.relate);
 };

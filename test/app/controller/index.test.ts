@@ -2,7 +2,7 @@
  * @Author: qiao
  * @Date: 2018-07-03 10:36:05
  * @Last Modified by: qiao
- * @Last Modified time: 2018-07-03 13:54:14
+ * @Last Modified time: 2018-07-11 10:32:27
  * index控制器测试文件
  */
 
@@ -11,7 +11,8 @@
  * 2、统一使用 egg-bin 来运行测试脚本， 自动将内置的 Mocha、co-mocha、power-assert，nyc 等模块组合
  * 引入到测试脚本中， 让我们聚焦精力在编写测试代码上，而不是纠结选择那些测试周边工具和模块。
  * 3、app.httpRequest() 是 egg-mock 封装的 SuperTest 请求实例。(https://github.com/visionmedia/supertest#getting-started)
- * 4、egg-mock api https://github.com/eggjs/egg-mock#api
+ * 4、SuperTest本身又是superagent的封装，一些详细的api可以查看superagent的api文档。（https://visionmedia.github.io/superagent/#get-requests）
+ * 5、egg-mock api https://github.com/eggjs/egg-mock#api
  */
 
 import * as assert from 'assert';
