@@ -33,4 +33,8 @@ export default (app: Application) => {
   router.get(apiPrefix + '/goods/category', controller.good.category);
   // 搜索货物列表
   router.get(apiPrefix + '/goods/list', controller.good.list);
+  // 货物详情
+  router.get(apiPrefix + '/goods/detail', controller.good.detail); ;
+  // 相关货物列表
+  router.get(apiPrefix + '/goods/related', controller.good.relate);
 };

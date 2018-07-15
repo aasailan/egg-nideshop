@@ -1,14 +1,15 @@
-import { IPage } from './../entity/page';
 /*
  * @Author: qiao
  * @Date: 2018-07-10 15:16:37
  * @Last Modified by: qiao
- * @Last Modified time: 2018-07-11 19:33:32
+ * @Last Modified time: 2018-07-14 19:49:15
  * 货物控制器
  */
 import { Controller } from 'egg';
-import { IGoodAttr } from '../model/good';
+import { IGoodAttr, IGoodInst } from '../model/good';
 import { Op, WhereOptions } from 'sequelize';
+import { IPage } from './../entity/page';
+import * as moment from 'moment';
 
 export default class GoodCtrl extends Controller {
   /**
@@ -168,18 +169,39 @@ export default class GoodCtrl extends Controller {
     } as IPage;
   }
 
+  /**
+   * @description 查找货物详情
+   * @memberof GoodCtrl
+   */
   public async detail() {
     const { helper, request, model, response } = this.ctx;
     const { id: goodId } = helper.validateParams({
       id: { type: 'numberString', field: 'id' },
     }, request.query, this.ctx);
 
-    // 解构别名
-    const [info, gallery, issue, { count: commentCount, rows: hotComments } ] = await Promise.all([
+    // 解构别名;
+    const [info, gallery, attribute, issue, { count: commentCount, rows: hotComments } ] = await Promise.all([
       model.Good.find({ where: { id: goodId }, raw: true }),
       model.GoodGallery.findAll({ where: { goods_id: goodId }, limit: 4, raw: true }),
-      // model.GoodAttribute.
-      model.GoodIssue.findAll({ raw: true }),
+      model.GoodAttribute.findAll({
+        raw: true,
+        include: [
+          {
+            association: model.GoodAttribute.belongsTo(model.Attribute,
+              { foreignKey: 'attribute_id', targetKey: 'id' }),
+            model: model.Attribute,
+            // NOTE: 查出来的字段会被自动添加上表名变成 nideshop_attribute.name，如果需要去除表名，只能自己对结果进行map修改
+            attributes: ['name'],
+          },
+        ],
+        where: { goods_id: goodId },
+        order: [['id', 'asc']],
+        attributes: ['value'],
+      }).then(results => results.map(result => {
+        return {value: result.value, name: result[model.Attribute.name + '.name']};
+      })),
+      // NOTE: 这个地方原项目中没有加 goods_id=goodId的查询，应该要加上才对
+      model.GoodIssue.findAll({ raw: true, where: { goods_id: goodId } }),
       model.Comment.findAndCount({ where: { value_id: goodId, type_id: 0 } }),
     ]);
     // 查找商品品牌
@@ -189,14 +211,14 @@ export default class GoodCtrl extends Controller {
     let commentInfo = {};
     if (hotComments && hotComments.length > 0) {
       const [commentUser, picList ] = await Promise.all([
-        model.User.find({ where: { id: hotComments[0].user_id }, raw: true }),
+        model.User.find({ where: { id: hotComments[0].user_id }, raw: true}),
         model.CommentPicture.findAll({ where: { comment_id: hotComments[0].id }, raw: true }),
       ]);
       commentInfo = {
-        content: Buffer.from(hotComments[0].content, 'base64').toString,
-        add_time: new Date(hotComments[0].add_time * 1000).getDate(),
-        nickname: commentUser.nickname,
-        avatar: commentUser.avatar,
+        content: Buffer.from(hotComments[0].content, 'base64').toString(),
+        add_time: moment(hotComments[0].add_time * 1000).format('YYYY-MM-DD hh:mm:ss'), // hotComments[0].add_time * 1000
+        nickname: commentUser && commentUser.nickname,
+        avatar: commentUser && commentUser.avatar,
         pic_list: picList,
       };
     }
@@ -211,6 +233,12 @@ export default class GoodCtrl extends Controller {
     // 记录用户足迹 TODO: 写死当前用户id
     model.Footprint.addFootprint(1, goodId);
 
+    // 查找商品规格信息
+    const [specificationList, productList] = await Promise.all([
+      model.Good.getSpecificationList(goodId),
+      model.Good.getProductList(goodId),
+    ]);
+
     response.body = {
       info,
       gallery,
@@ -220,6 +248,51 @@ export default class GoodCtrl extends Controller {
       comment,
       brand,
       specificationList,
+      productList,
+    };
+  }
+
+  /**
+   * @description 相关货物列表
+   * @memberof GoodCtrl
+   */
+  public async relate() {
+    const { helper, request, model, response } = this.ctx;
+    const { id: goodId } = helper.validateParams({
+      id: { type: 'numberString', field: 'id' },
+    }, request.query, this.ctx);
+
+    // 查找相关货物id
+    const relatedGoodIds = await model.RelatedGood.findAll({
+      where: { id: goodId },
+      attributes: ['related_goods_id'],
+      raw: true,
+    });
+
+    let relatedGoods: IGoodInst[] = null;
+    if (relatedGoodIds && relatedGoodIds.length > 0) {
+      // 根据相关id查找相关货物
+      relatedGoods = await model.Good.findAll({
+        where: { id: { [Op.in]: relatedGoodIds }},
+        attributes: ['id', 'name', 'list_pic_url', 'retail_price'],
+        raw: true,
+      });
+    } else {
+      // 没有相关货物id，查找同种类的货物
+      const goodInfo = await model.Good.find({
+        where: { id: goodId },
+        raw: true,
+      });
+      relatedGoods = await model.Good.findAll({
+        where: { category_id: goodInfo.category_id },
+        attributes: ['id', 'name', 'list_pic_url', 'retail_price'],
+        limit: 8,
+        raw: true,
+      });
+    }
+
+    response.body = {
+      goodsList: relatedGoods,
     };
   }
 }

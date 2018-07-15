@@ -2,11 +2,13 @@
  * @Author: qiao
  * @Date: 2018-07-01 09:41:41
  * @Last Modified by: qiao
- * @Last Modified time: 2018-07-11 16:31:22
+ * @Last Modified time: 2018-07-14 18:08:48
  * 货物表
  */
 import { Application } from 'egg';
 import Sequelize, { INTEGER, STRING, DECIMAL, TINYINT, Instance } from 'sequelize';
+import { IGoodSpecificationInst } from './good_specification';
+import { IProductInst } from './product';
 
 export interface IGoodAttr {
   id: number;
@@ -41,10 +43,18 @@ export interface IGoodAttr {
   is_hot: number;
 }
 
-interface IGoodInst extends Instance<IGoodAttr>, IGoodAttr {
+export interface IGoodInst extends Instance<IGoodAttr>, IGoodAttr {
 }
 
 interface IGoodModel extends Sequelize.Model<IGoodInst, IGoodAttr> {
+  getSpecificationList: (goodsId: number) => Promise<ISpecificationList[]>;
+  getProductList: (goodsId: number) => PromiseLike<IProductInst[]>;
+}
+
+interface ISpecificationList {
+  specification_id: number;
+  name: string;
+  valueList: IGoodSpecificationInst[];
 }
 
 export default (app: Application) => {
@@ -52,7 +62,7 @@ export default (app: Application) => {
   const tablePrefix = app.config.sequelize.tablePrefix;
 
   // TODO: mysql里面这张表定义ENGINE，这里没有定义
-  const good = sequelize.define(tablePrefix + 'goods_gallery', {
+  const good = sequelize.define(tablePrefix + 'good', {
     id: {
       type: INTEGER(11).UNSIGNED,
       primaryKey: true,
@@ -273,10 +283,69 @@ export default (app: Application) => {
     ],
   }) as IGoodModel;
 
-  good.getSpecificationList = (goodsId: number) => {
-    // 根据sku商品信息，查找规格值列表
-    
-  }
+  good.getSpecificationList = async (goodsId: number) => {
+    // 根据商品id信息，查找规格值列表
+    const GoodSpecification = app.model.GoodSpecification;
+    const Specification = app.model.Specification;
+    const specificationRes = await GoodSpecification.findAll({
+      where: { goods_id: goodsId },
+      // NOTE: 如果不加raw: true，则include查出来的结果会被包含在include字段中
+      raw: true,
+      include: [
+        {
+          association: GoodSpecification.belongsTo(Specification, { foreignKey: 'specification_id', targetKey: 'id' }),
+          model: Specification,
+          // 内连接
+          required: true,
+          // NOTE: include查出来的字段会被自动添加上表名变成 nideshop_specifications.name，如果需要去除表名，只能自己对结果进行map修改
+          attributes: ['name'],
+        },
+      ],
+    }).then(results => {
+      results.forEach(result => {
+        // NOTE: 使用model.name 获取的是单数的表名，也就是define的时候定义的表名
+        // 使用model.getTableName() 获取的是复数的表名，也就是数据库中实际的表名
+        const table = Specification.name;
+        result['name'] = result[table + '.name'];
+      });
+      return results;
+    });
+
+    const specificationList = [] as ISpecificationList[];
+    const hasSpecificationList = {};
+    // 按规格名称分组
+    for (const specItem of specificationRes) {
+      if (!hasSpecificationList[specItem.specification_id]) {
+        specificationList.push({
+          specification_id: specItem.specification_id,
+          // TODO: 这个地方需要检查数据结构
+          name: specItem['name'],
+          valueList: [specItem],
+        });
+        hasSpecificationList[specItem.specification_id] = specItem;
+      } else {
+        for (const specification of specificationList) {
+          if (specification.specification_id === specItem.specification_id) {
+            specification.valueList.push(specItem);
+            break;
+          }
+        }
+      }
+    }
+
+    return specificationList;
+  };
+
+  /**
+   * @description 根据货物id查找具体商品信息
+   * @param {number} goodsId 货物id
+   * @returns {PromiseLike<IProductInst[]>} 商品具体列表
+   */
+  good.getProductList = (goodsId: number) => {
+    return app.model.Product.findAll({
+      where: { goods_id: goodsId },
+    });
+  };
 
   return good;
 };

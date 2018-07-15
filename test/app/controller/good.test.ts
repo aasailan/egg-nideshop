@@ -2,7 +2,7 @@
  * @Author: qiao
  * @Date: 2018-07-10 15:20:24
  * @Last Modified by: qiao
- * @Last Modified time: 2018-07-11 10:50:40
+ * @Last Modified time: 2018-07-14 20:58:07
  * 货物控制器测试
  */
 
@@ -73,5 +73,42 @@ describe('good ctrl test', () => {
     assert(body.data.count > 0);
     assert(body.data.data.length > 0);
     assert(body.data.filterCategory.length > 0);
+  });
+
+  it('test /api/goods/detail', async () => {
+    const apiPrefix = app.config.apiPrefix;
+    const queryObj = { id: 1181000 };
+    const res = await app.httpRequest().get(apiPrefix + '/goods/detail')
+    .query(queryObj)
+    .expect(200);
+    const body: IStandardResponseBody = res.body;
+
+    assert(body.errno === 0);
+    assert(body.data.info.id === queryObj.id);
+    assert(body.data.gallery.length > 0);
+    assert(body.data.gallery[0].goods_id === queryObj.id);
+    assert(body.data.attribute.length > 0);
+    assert(typeof body.data.userHasCollect === 'boolean');
+    assert(body.data.issue.length >= 0);
+    assert(body.data.comment.count > 0);
+    assert(body.data.comment.data.content.length > 0);
+    assert(body.data.brand.id === body.data.info.brand_id);
+    assert(body.data.specificationList.length > 0);
+    assert(body.data.specificationList[0].valueList[0].goods_id === queryObj.id );
+    assert(body.data.productList.length > 0);
+    assert(body.data.productList[0].goods_id === queryObj.id);
+  });
+
+  it('test /api/goods/related', async () => {
+    const apiPrefix = app.config.apiPrefix;
+    const queryObj = { id: 1181000 };
+    const res = await app.httpRequest().get(apiPrefix + '/goods/related')
+    .query(queryObj)
+    .expect(200);
+    const body: IStandardResponseBody = res.body;
+
+    assert(body.errno === 0);
+    assert(body.data.goodsList.length > 0);
+    // assert(body.data.goodsList.);
   });
 });
