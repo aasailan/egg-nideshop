@@ -10,7 +10,7 @@ import * as assert from 'assert';
 import mock, { BaseMockApplication } from 'egg-mock';
 import { Application, Context } from 'egg';
 
-import { IStandardResponseBody } from './../../../app/middleware/response_handler';
+import { IStandardResponseBody } from 'app/middleware/response_handler';
 
 describe('catalog ctrl test', () => {
   let app: BaseMockApplication<Application, Context>;

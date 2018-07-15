@@ -37,4 +37,7 @@ export default (app: Application) => {
   router.get(apiPrefix + '/goods/detail', controller.good.detail); ;
   // 相关货物列表
   router.get(apiPrefix + '/goods/related', controller.good.relate);
+
+  // 微信登录
+  router.post(apiPrefix + '/auth/loginByWeixin', controller.auth.loginByWeChat);
 };

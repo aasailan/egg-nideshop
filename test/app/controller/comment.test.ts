@@ -2,7 +2,7 @@
  * @Author: qiao
  * @Date: 2018-07-09 16:00:03
  * @Last Modified by: qiao
- * @Last Modified time: 2018-07-09 19:02:45
+ * @Last Modified time: 2018-07-15 18:53:47
  * 评论测试文件
  */
 
@@ -10,7 +10,7 @@ import * as assert from 'assert';
 import mock, { BaseMockApplication } from 'egg-mock';
 import { Application, Context } from 'egg';
 
-import { IStandardResponseBody } from './../../../app/middleware/response_handler';
+import { IStandardResponseBody } from 'app/middleware/response_handler';
 
 describe('comment ctrl test', () => {
   let app: BaseMockApplication<Application, Context>;

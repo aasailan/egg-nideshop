@@ -2,19 +2,19 @@
  * @Author: qiao
  * @Date: 2018-07-11 11:24:22
  * @Last Modified by: qiao
- * @Last Modified time: 2018-07-11 14:41:54
+ * @Last Modified time: 2018-07-15 20:15:05
  * 搜索历史表
  */
 
 import { Application } from 'egg';
-import Sequelize, { INTEGER, STRING, Instance } from 'sequelize';
+import Sequelize, { INTEGER, STRING, Instance, MEDIUMINT } from 'sequelize';
 
 interface ISearchHistoryAttr {
   id?: number;
   keyword: string;
   from?: string;
   add_time: number;
-  user_id: string;
+  user_id: number;
 }
 
 interface ISearchHistoryInst extends Instance<ISearchHistoryAttr>, ISearchHistoryAttr {
@@ -55,7 +55,7 @@ export default (app: Application) => {
     },
 
     user_id: {
-      type: STRING(45),
+      type: MEDIUMINT(8).UNSIGNED,
       defaultValue: null,
     },
   }, {

@@ -2,13 +2,13 @@
  * @Author: qiao
  * @Date: 2018-07-10 15:16:37
  * @Last Modified by: qiao
- * @Last Modified time: 2018-07-14 19:49:15
+ * @Last Modified time: 2018-07-15 20:20:21
  * 货物控制器
  */
 import { Controller } from 'egg';
 import { IGoodAttr, IGoodInst } from '../model/good';
 import { Op, WhereOptions } from 'sequelize';
-import { IPage } from './../entity/page';
+import { IPage } from '../entity/page';
 import * as moment from 'moment';
 
 export default class GoodCtrl extends Controller {
@@ -58,7 +58,7 @@ export default class GoodCtrl extends Controller {
    * @memberof GoodCtrl
    */
   public async list() {
-    const { helper, request, model, response } = this.ctx;
+    const { helper, request, model, response, jwtSession } = this.ctx;
     const { categoryId = 0, keyword = null, brandId = null, isNew = null, isHot = null,
       page, size = 20, sort = 'desc', order } = helper.validateParams({
         categoryId: { type: 'numberString', field: 'categoryId' },
@@ -76,10 +76,9 @@ export default class GoodCtrl extends Controller {
     if (keyword) {
       whereMap.name = { [Op.like]: `%${keyword}%` };
       // 将用户的搜索记录插入到表中
-      // TODO: user_id现在固定死了是1，应该从会话获取
       model.SearchHistory.create({
         keyword,
-        user_id: '1',
+        user_id: jwtSession.user_id,
         add_time: new Date().getTime() / 1000,
       });
     }
@@ -174,7 +173,7 @@ export default class GoodCtrl extends Controller {
    * @memberof GoodCtrl
    */
   public async detail() {
-    const { helper, request, model, response } = this.ctx;
+    const { helper, request, model, response, jwtSession } = this.ctx;
     const { id: goodId } = helper.validateParams({
       id: { type: 'numberString', field: 'id' },
     }, request.query, this.ctx);
@@ -228,10 +227,10 @@ export default class GoodCtrl extends Controller {
       data: commentInfo,
     };
 
-    // 当前用户是否收藏 TODO: 写死当前用户id
-    const userHasCollect = await model.Collect.isUserHasCollect(1, 0, goodId);
-    // 记录用户足迹 TODO: 写死当前用户id
-    model.Footprint.addFootprint(1, goodId);
+    // 当前用户是否收藏
+    const userHasCollect = await model.Collect.isUserHasCollect(jwtSession.user_id, 0, goodId);
+    // 记录用户足迹
+    model.Footprint.addFootprint(jwtSession.user_id, goodId);
 
     // 查找商品规格信息
     const [specificationList, productList] = await Promise.all([

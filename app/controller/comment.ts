@@ -6,7 +6,7 @@
  * 评论控制器
  */
 import { Controller } from 'egg';
-import { IPage } from './../entity/page';
+import { IPage } from '../entity/page';
 import { Op } from 'sequelize';
 // import Sequelize from 'sequelize';
 

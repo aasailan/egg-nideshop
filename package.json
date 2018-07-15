@@ -26,9 +26,11 @@
     "egg-scripts": "^2.6.0",
     "egg-sequelize": "^3.1.4",
     "egg-validate": "^1.0.0",
+    "jsonwebtoken": "^8.3.0",
     "module-alias": "^2.1.0",
     "moment": "^2.22.2",
-    "mysql2": "^1.5.3"
+    "mysql2": "^1.5.3",
+    "uuid": "^3.3.2"
   },
   "devDependencies": {
     "@types/egg-mock": "^3.0.3",

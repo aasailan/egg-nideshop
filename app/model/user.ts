@@ -2,22 +2,22 @@
  * @Author: qiao
  * @Date: 2018-07-09 15:30:02
  * @Last Modified by: qiao
- * @Last Modified time: 2018-07-09 15:46:44
+ * @Last Modified time: 2018-07-15 19:10:58
  * 用户表
  */
 import { Application } from 'egg';
 import Sequelize, { MEDIUMINT, STRING, TINYINT, Instance, INTEGER } from 'sequelize';
 
 interface IUserAttr {
-  id: number;
+  id?: number;
   username: string;
   password: string;
   gender: number;
-  birthday: number;
+  birthday?: number;
   register_time: number;
   last_login_time: number;
   last_login_ip: string;
-  user_level_id: number;
+  user_level_id?: number;
   nickname: string;
   mobile: string;
   register_ip: string;

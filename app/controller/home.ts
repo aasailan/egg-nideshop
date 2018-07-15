@@ -9,6 +9,7 @@ export default class HomeController extends Controller {
 
   // 参数校验与response中间件校验
   public async test() {
+    const { logger } = this.ctx;
     const rules = {
       age: {
         type: 'numberString',
@@ -22,6 +23,9 @@ export default class HomeController extends Controller {
       },
     };
     this.ctx.logger.info(this.ctx.request.query);
+
+    logger.info('session user');
+    logger.info(this.ctx.user);
     // this.ctx.logger.debug(this.ctx.request.queries);
     try {
       // get请求的参数验证 ctx.request.query query的参数类型全都是string，否则无法验证通过
