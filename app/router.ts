@@ -40,4 +40,18 @@ export default (app: Application) => {
 
   // 微信登录
   router.post(apiPrefix + '/auth/loginByWeixin', controller.auth.loginByWeChat);
+
+  // 购物车相关
+  // 购物车信息
+  router.get(apiPrefix + '/cart/index', controller.cart.index);
+  // 添加商品到购物车
+  router.post(apiPrefix + '/cart/add', controller.cart.add);
+  // 获取购物车商品的总件数
+  router.get(apiPrefix + '/cart/goodscount', controller.cart.goodscount);
+  // 更新购物车商品总数
+  router.post(apiPrefix + '/cart/update', controller.cart.update);
+  // 删除购物车
+  router.post(apiPrefix + '/cart/delete', controller.cart.delete);
+  // 下单前检查
+  router.get(apiPrefix + '/cart/checkout', controller.cart.checkout);
 };

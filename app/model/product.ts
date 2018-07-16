@@ -44,6 +44,7 @@ export default (app: Application) => {
       type: STRING(50),
       allowNull: false,
       defaultValue: '',
+      comment: '货物的规格id，多个使用_作为连接符',
     },
 
     goods_sn: {

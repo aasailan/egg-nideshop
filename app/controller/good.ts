@@ -2,7 +2,7 @@
  * @Author: qiao
  * @Date: 2018-07-10 15:16:37
  * @Last Modified by: qiao
- * @Last Modified time: 2018-07-15 20:20:21
+ * @Last Modified time: 2018-07-16 16:27:13
  * 货物控制器
  */
 import { Controller } from 'egg';
@@ -73,9 +73,9 @@ export default class GoodCtrl extends Controller {
 
     // 添加搜索查找条件
     const whereMap = {} as WhereOptions<IGoodAttr>;
-    if (keyword) {
-      whereMap.name = { [Op.like]: `%${keyword}%` };
+    if (keyword && jwtSession) {
       // 将用户的搜索记录插入到表中
+      whereMap.name = { [Op.like]: `%${keyword}%` };
       model.SearchHistory.create({
         keyword,
         user_id: jwtSession.user_id,
@@ -227,10 +227,13 @@ export default class GoodCtrl extends Controller {
       data: commentInfo,
     };
 
-    // 当前用户是否收藏
-    const userHasCollect = await model.Collect.isUserHasCollect(jwtSession.user_id, 0, goodId);
-    // 记录用户足迹
-    model.Footprint.addFootprint(jwtSession.user_id, goodId);
+    let userHasCollect = false;
+    if (jwtSession) {
+      // 当前用户是否收藏
+      userHasCollect = await model.Collect.isUserHasCollect(jwtSession.user_id, 0, goodId);
+      // 记录用户足迹
+      model.Footprint.addFootprint(jwtSession.user_id, goodId);
+    }
 
     // 查找商品规格信息
     const [specificationList, productList] = await Promise.all([
