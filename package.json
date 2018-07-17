@@ -25,6 +25,7 @@
     "egg-cors": "^2.0.0",
     "egg-scripts": "^2.6.0",
     "egg-sequelize": "^3.1.4",
+    "egg-userrole": "^2.0.0",
     "egg-validate": "^1.0.0",
     "jsonwebtoken": "^8.3.0",
     "module-alias": "^2.1.0",

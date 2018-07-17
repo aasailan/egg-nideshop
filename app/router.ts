@@ -4,6 +4,8 @@ export default (app: Application) => {
   const { controller, router } = app;
   const apiPrefix = app.config.apiPrefix;
 
+  const needLogin = app.role.can('login');
+
   router.get('/', controller.home.index);
 
   router.get(apiPrefix + '/test', controller.home.test);
@@ -40,4 +42,20 @@ export default (app: Application) => {
 
   // 微信登录
   router.post(apiPrefix + '/auth/loginByWeixin', controller.auth.loginByWeChat);
+
+  // 购物车相关
+  // 购物车信息
+  router.get(apiPrefix + '/cart/index', needLogin, controller.cart.index);
+  // 添加商品到购物车
+  router.post(apiPrefix + '/cart/add', needLogin, controller.cart.add);
+  // 获取购物车商品的总件数
+  router.get(apiPrefix + '/cart/goodscount', controller.cart.goodscount);
+  // 更新购物车商品总数
+  router.post(apiPrefix + '/cart/update', needLogin, controller.cart.update);
+  // 删除购物车
+  router.post(apiPrefix + '/cart/delete', needLogin, controller.cart.delete);
+  // 下单前检查
+  router.get(apiPrefix + '/cart/checkout', needLogin, controller.cart.checkout);
+  // 选中或者剔除购物车内的货物
+  router.post(apiPrefix + '/cart/checked', needLogin, controller.cart.checked);
 };

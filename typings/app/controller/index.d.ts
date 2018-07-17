@@ -2,6 +2,7 @@
 // Do not modify this file!!!!!!!!!
 
 import Auth from '../../../app/controller/auth';
+import Cart from '../../../app/controller/cart';
 import Catalog from '../../../app/controller/catalog';
 import Comment from '../../../app/controller/comment';
 import Good from '../../../app/controller/good';
@@ -12,6 +13,7 @@ import Topic from '../../../app/controller/topic';
 declare module 'egg' {
   interface IController {
     auth: Auth;
+    cart: Cart;
     catalog: Catalog;
     comment: Comment;
     good: Good;

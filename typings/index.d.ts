@@ -2,7 +2,7 @@
  * @Author: qiao 
  * @Date: 2018-07-01 11:28:01 
  * @Last Modified by: qiao
- * @Last Modified time: 2018-07-15 15:42:30
+ * @Last Modified time: 2018-07-17 15:06:17
  * 自定义type
  */
 import { Sequelize } from 'sequelize';
@@ -15,10 +15,17 @@ export interface IJwtSession {
   iat: number;
 }
 
+interface IUserrole {
+  failureHandler: (ctx: Context, action: any) => any;
+  use: (name: string, handler: (ctx: Context) => any ) => any;
+  can: (name: string) => any;
+}
+
 declare module 'egg' {
   interface Application {
     model: Sequelize;
     validator: any;
+    role: IUserrole;
   }
 
   interface Context {

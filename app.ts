@@ -2,10 +2,11 @@
  * @Author: qiao
  * @Date: 2018-07-01 11:15:47
  * @Last Modified by: qiao
- * @Last Modified time: 2018-07-15 14:55:35
+ * @Last Modified time: 2018-07-17 15:13:54
  * app启动文件，用于自定义启动时的初始化工作,只返回一个函数
  */
 import { Application } from 'egg';
+import useRole from './app/auth/role';
 
 export default (app: Application) => {
   const { logger } = app;
@@ -52,4 +53,6 @@ export default (app: Application) => {
     }
   });
 
+  // 加载egg-userrole配置
+  useRole(app);
  };

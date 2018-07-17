@@ -1,0 +1,1 @@
+INSERT INTO `nideshop_addresses` VALUES (3,'小明',1,1,20,233,2414,'民族大道1号','13800008888',1);
