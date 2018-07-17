@@ -1,13 +1,12 @@
-import { Op } from 'sequelize';
 /*
  * @Author: qiao
  * @Date: 2018-07-15 20:59:23
  * @Last Modified by: qiao
- * @Last Modified time: 2018-07-17 15:30:00
+ * @Last Modified time: 2018-07-17 15:58:29
  */
 import { Controller } from 'egg';
+import { Op } from 'sequelize';
 
-// NOTE: 这个控制器的所有方法需要做登录控制，没有登录的时候，userid 全部用 1暂时代替
 export default class CartCtrl extends Controller {
   // 获取购物车商品的总件件数
   public async goodscount() {

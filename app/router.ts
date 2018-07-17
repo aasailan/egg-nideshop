@@ -58,4 +58,18 @@ export default (app: Application) => {
   router.get(apiPrefix + '/cart/checkout', needLogin, controller.cart.checkout);
   // 选中或者剔除购物车内的货物
   router.post(apiPrefix + '/cart/checked', needLogin, controller.cart.checked);
+
+  // 区域相关
+  // 获取父区域id下的子区域列表
+  router.get(apiPrefix + '/region/list', controller.region.listChildRegion);
+
+  // 地址相关
+  // 地址列表
+  router.get(apiPrefix + '/address/list', needLogin, controller.address.list);
+  // 地址详情
+  router.get(apiPrefix + '/address/detail', needLogin, controller.address.detail);
+  // 保存地址
+  router.post(apiPrefix + '/address/save', needLogin, controller.address.save);
+  // 删除地址
+  router.post(apiPrefix + '/address/delete', needLogin, controller.address.deleteAddress);
 };

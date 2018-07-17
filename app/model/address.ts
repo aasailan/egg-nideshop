@@ -2,17 +2,17 @@
  * @Author: qiao
  * @Date: 2018-07-16 11:15:25
  * @Last Modified by: qiao
- * @Last Modified time: 2018-07-16 19:38:29
+ * @Last Modified time: 2018-07-17 16:56:24
  * 地址表
  */
 import { Application } from 'egg';
 import Sequelize, { MEDIUMINT, SMALLINT, STRING, TINYINT, Instance } from 'sequelize';
 
 export interface IAddressAttr {
-  id: number;
+  id?: number;
   name: string;
   user_id: number;
-  country_id: number;
+  country_id?: number;
   province_id: number;
   city_id: number;
   district_id: number;
@@ -21,9 +21,18 @@ export interface IAddressAttr {
   is_default: number;
 }
 
+interface IFullAddress extends IAddressAttr {
+  province_name: string;
+  city_name: string;
+  district_name: string;
+  full_region: string;
+}
+
 interface IAddressInst extends Instance<IAddressAttr>, IAddressAttr {}
 
-interface IAddressModel extends Sequelize.Model<IAddressInst, IAddressAttr> {}
+interface IAddressModel extends Sequelize.Model<IAddressInst, IAddressAttr> {
+  getDetailAddress: (userAddress: IAddressAttr) => PromiseLike<IFullAddress>;
+}
 
 export default (app: Application) => {
   const sequelize = app.model;
@@ -99,6 +108,19 @@ export default (app: Application) => {
       { name: 'user_id', fields: ['user_id'] },
     ],
   }) as IAddressModel;
+
+  address.getDetailAddress = async (userAddress: IAddressAttr) => {
+    const [ provinceName, cityName, districtName ] = await Promise.all([
+      sequelize.Region.getRegionName(userAddress.province_id),
+      sequelize.Region.getRegionName(userAddress.city_id),
+      sequelize.Region.getRegionName(userAddress.district_id),
+    ]);
+    userAddress['province_name'] = provinceName;
+    userAddress['city_name'] = cityName;
+    userAddress['district_name'] = districtName;
+    userAddress['full_region'] = provinceName + cityName + districtName;
+    return userAddress as IFullAddress;
+  };
 
   return address;
 };
