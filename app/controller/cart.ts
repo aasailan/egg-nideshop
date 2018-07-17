@@ -3,7 +3,7 @@ import { Op } from 'sequelize';
  * @Author: qiao
  * @Date: 2018-07-15 20:59:23
  * @Last Modified by: qiao
- * @Last Modified time: 2018-07-16 20:52:21
+ * @Last Modified time: 2018-07-17 15:30:00
  */
 import { Controller } from 'egg';
 
@@ -95,5 +95,27 @@ export default class CartCtrl extends Controller {
     }, request.query, this.ctx);
 
     response.body = await service.cart.checkout(addressId);
+  }
+
+  /**
+   * @description 是否选择商品，如果已经选择，则取消选择，批量操作
+   * @memberof CartCtrl
+   */
+  public async checked() {
+    const { request, helper, model, service, response, jwtSession } = this.ctx;
+    const { productIds, isChecked } = helper.validateParams({
+      // productIds: { type: 'string' },
+      isChecked: { type: 'number' },
+    }, request.body, this.ctx);
+
+    const productArr = (productIds + '').split(',');
+
+    await model.Cart.update({
+      checked: isChecked,
+    }, {
+      where: { product_id: { [Op.in]: productArr }, user_id: jwtSession.user_id },
+    });
+
+    response.body = await service.cart.getCart();
   }
 }

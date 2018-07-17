@@ -2,7 +2,7 @@
  * @Author: qiao
  * @Date: 2018-07-16 15:51:10
  * @Last Modified by: qiao
- * @Last Modified time: 2018-07-16 20:59:33
+ * @Last Modified time: 2018-07-17 14:36:23
  */
 
 import * as assert from 'assert';
@@ -70,6 +70,7 @@ describe('cart ctrl test', () => {
 
     assert(body.errno === 0);
     assert(body.data.cartList.length >= 0);
+    app.logger.info(body.data.cartList);
     cartId = body.data.cartList[0].id;
     checkCartTotal(body.data.cartTotal);
   });
@@ -99,6 +100,27 @@ describe('cart ctrl test', () => {
     checkCartTotal(body.data.cartTotal);
   });
 
+  it('test /api/cart/checked', async () => {
+    const apiPrefix = app.config.apiPrefix;
+    const params = {
+      isChecked: 0,
+      productIds: '228',
+    };
+    const res = await app.httpRequest().post(apiPrefix + '/cart/checked')
+    .send(params)
+    .set('Accept', 'application/json')
+    .expect(200);
+    const body: IStandardResponseBody = res.body;
+
+    const cartList: any[] = body.data.cartList;
+    const cartTotal = body.data.cartTotal;
+    assert(body.errno === 0);
+    assert(cartList.length >= 0);
+    checkCartTotal(cartTotal);
+    assert(cartTotal.goodsCount > cartTotal.checkedGoodsCount);
+    assert(cartTotal.goodsAmount > cartTotal.checkedGoodsAmount);
+  });
+
   it('test /api/cart/delete', async () => {
     const apiPrefix = app.config.apiPrefix;
     const params = {
@@ -112,10 +134,10 @@ describe('cart ctrl test', () => {
 
     const cartList: any[] = body.data.cartList;
     assert(body.errno === 0);
-    console.log(body.data);
+    // console.log(body.data);
     assert(cartList.length >= 0);
     cartList.map(cart => {
-      assert(cart.product_id !== params.productId);
+      assert(cart.product_id !== params.productIds);
     });
     checkCartTotal(body.data.cartTotal);
   });

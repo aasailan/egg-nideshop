@@ -2,7 +2,7 @@
  * @Author: qiao
  * @Date: 2018-07-15 21:06:57
  * @Last Modified by: qiao
- * @Last Modified time: 2018-07-16 20:18:17
+ * @Last Modified time: 2018-07-17 14:38:12
  * 购物车服务
  */
 import { Service } from 'egg';
@@ -132,7 +132,7 @@ export default class CartServ extends Service {
     // NOTE: 根据收货地址计算运费，暂时没有实现
     const freightPrice = 0.00;
 
-    // 获取要购买的商品
+    // 获取要购买的商品，checked===1才是需要购买的商品
     const cartData = await this.getCart();
     const checkedGoodsList = cartData.cartList.filter(v => {
       return v.checked === 1;
