@@ -2,7 +2,7 @@
  * @Author: qiao
  * @Date: 2018-07-04 14:15:14
  * @Last Modified by: qiao
- * @Last Modified time: 2018-07-21 10:57:08
+ * @Last Modified time: 2018-07-21 13:51:14
  * 评论控制器
  */
 import { Controller } from 'egg';
@@ -114,8 +114,8 @@ export default class CommentCtrl extends Controller {
     await model.Comment.create({
       type_id: typeId,
       value_id: valueId,
-      content,
-      add_time: new Date().getTime() / 1000,
+      content: Buffer.from(content).toString('base64'),
+      add_time: Date.now() / 1000,
       user_id: jwtSession.user_id,
     });
 

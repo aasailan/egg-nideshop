@@ -2,7 +2,7 @@
  * @Author: qiao
  * @Date: 2018-07-17 20:20:57
  * @Last Modified by: qiao
- * @Last Modified time: 2018-07-21 11:02:04
+ * @Last Modified time: 2018-07-21 13:55:26
  * 用户收藏控制器
  */
 import { Controller } from 'egg';
@@ -74,7 +74,7 @@ export default class CollectCtrl extends Controller {
       await model.Collect.create({
         user_id: jwtSession.user_id,
         value_id: valueId,
-        add_time: new Date().getTime() / 1000,
+        add_time: Math.floor(Date.now() / 1000),
         type_id: typeId,
       });
       handleType = 'add';

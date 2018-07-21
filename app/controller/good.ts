@@ -2,7 +2,7 @@
  * @Author: qiao
  * @Date: 2018-07-10 15:16:37
  * @Last Modified by: qiao
- * @Last Modified time: 2018-07-16 16:27:13
+ * @Last Modified time: 2018-07-21 13:47:34
  * 货物控制器
  */
 import { Controller } from 'egg';
@@ -61,7 +61,7 @@ export default class GoodCtrl extends Controller {
     const { helper, request, model, response, jwtSession } = this.ctx;
     const { categoryId = 0, keyword = null, brandId = null, isNew = null, isHot = null,
       page, size = 20, sort = 'desc', order } = helper.validateParams({
-        categoryId: { type: 'numberString', field: 'categoryId' },
+        categoryId: { type: 'numberString', field: 'categoryId', required: false },
         keyword: { type: 'string', required: false },
         brandId: { type: 'numberString', field: 'brandId', required: false },
         isNew: { type: 'numberString', field: 'isNew', required: false },

@@ -82,4 +82,8 @@ export default (app: Application) => {
   router.get(apiPrefix + '/collect/list', needLogin, controller.collect.list);
   // 用户添加或者删除收藏
   router.post(apiPrefix + '/collect/addordelete', needLogin, controller.collect.addOrDelete);
+
+  // 品牌相关
+  router.get(apiPrefix + '/brand/detail', controller.brand.detail);
+  router.get(apiPrefix + '/brand/list', controller.brand.list);
 };
