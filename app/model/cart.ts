@@ -30,6 +30,7 @@ interface ICartAttr {
 interface ICartInst extends Instance<ICartAttr>, ICartAttr{
 }
 
+// NOTE: 向购物车添加更新货物的逻辑写在购物车model中，而不是用户中
 interface ICartModel extends Sequelize.Model<ICartInst, ICartAttr>{
   addGoods: (userId: number, goodsId: number, productId: number, number: number,
     goodsInfo: IGoodInst) => PromiseLike<any>;

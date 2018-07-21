@@ -10,11 +10,11 @@ import { Application } from 'egg';
 import Sequelize, { MEDIUMINT, INTEGER, TINYINT, Instance } from 'sequelize';
 
 interface ICollectAttr {
-  id: number;
+  id?: number;
   user_id: number;
   value_id: number;
   add_time: number;
-  is_attention: number;
+  is_attention?: number;
   type_id: number;
 }
 
@@ -59,7 +59,7 @@ export default (app: Application) => {
       type: TINYINT(1),
       allowNull: false,
       defaultValue: 0,
-      comment: '是否是关注',
+      comment: '是否是收藏，这个关键字应该无用',
     },
 
     type_id: {

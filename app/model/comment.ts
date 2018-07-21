@@ -2,21 +2,21 @@
  * @Author: qiao
  * @Date: 2018-07-03 20:11:34
  * @Last Modified by: qiao
- * @Last Modified time: 2018-07-04 09:48:46
+ * @Last Modified time: 2018-07-21 10:56:21
  * 评论表
  */
 import { Application } from 'egg';
 import Sequelize, { INTEGER, TINYINT, TEXT, Instance } from 'sequelize';
 
 interface ICommentAttr {
-  id: number;
+  id?: number;
   type_id: number;
   value_id: number;
   content: string;
   add_time: number;
-  status: number;
+  status?: number;
   user_id: number;
-  new_content: string;
+  new_content?: string;
 }
 
 interface ICommentInst extends Instance<ICommentAttr>, ICommentAttr {
@@ -47,7 +47,7 @@ export default (app: Application) => {
       type: INTEGER(11).UNSIGNED,
       allowNull: false,
       defaultValue: 0,
-      comment: '评论所属的topic id'
+      comment: '评论所属的topic id',
     },
 
     // TODO: 源码中有COLLATE utf8mb4_unicode_ci 在这里没有实现
@@ -67,6 +67,7 @@ export default (app: Application) => {
       type: TINYINT(3).UNSIGNED,
       allowNull: false,
       defaultValue: 0,
+      comment: '该字段暂时无用',
     },
 
     user_id: {
@@ -75,11 +76,11 @@ export default (app: Application) => {
       defaultValue: 0,
     },
 
-    // TODO: 源码中有COLLATE utf8mb4_unicode_ci 在这里没有实现
     new_content: {
       type: TEXT,
       allowNull: false,
-
+      defaultValue: '',
+      comment: '该字段暂时无用',
     },
   }, {
     timestamps: false,

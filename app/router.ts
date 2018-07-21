@@ -21,8 +21,12 @@ export default (app: Application) => {
   router.get(apiPrefix + '/topic/related', controller.topic.relate);
 
   // 评论列表
+  // 查询货物评论列表
   router.get(apiPrefix + '/comment/list', controller.comment.list);
+  // 查询货物评论总数
   router.get(apiPrefix + '/comment/count', controller.comment.count);
+  // 添加评论
+  router.post(apiPrefix + '/comment/post', needLogin, controller.comment.addPost);
 
   // 商品分类列表
   router.get(apiPrefix + '/catalog/index', controller.catalog.index);
@@ -72,4 +76,10 @@ export default (app: Application) => {
   router.post(apiPrefix + '/address/save', needLogin, controller.address.save);
   // 删除地址
   router.post(apiPrefix + '/address/delete', needLogin, controller.address.deleteAddress);
+
+  // 收藏相关接口
+  // 显示用户收藏的所有货物
+  router.get(apiPrefix + '/collect/list', needLogin, controller.collect.list);
+  // 用户添加或者删除收藏
+  router.post(apiPrefix + '/collect/addordelete', needLogin, controller.collect.addOrDelete);
 };

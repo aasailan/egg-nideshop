@@ -2,7 +2,7 @@
  * @Author: qiao
  * @Date: 2018-07-04 14:15:14
  * @Last Modified by: qiao
- * @Last Modified time: 2018-07-10 10:02:12
+ * @Last Modified time: 2018-07-21 10:57:08
  * 评论控制器
  */
 import { Controller } from 'egg';
@@ -11,6 +11,10 @@ import { Op } from 'sequelize';
 // import Sequelize from 'sequelize';
 
 export default class CommentCtrl extends Controller {
+  /**
+   * @description 查询评论列表
+   * @memberof CommentCtrl
+   */
   public async list() {
     const { helper, request, model, response } = this.ctx;
     const { valueId, typeId, size, page = 1 } = helper.validateParams({
@@ -62,6 +66,10 @@ export default class CommentCtrl extends Controller {
     } as IPage;
   }
 
+  /**
+   * @description 查询某个货物的评论总数
+   * @memberof CommentCtrl
+   */
   public async count() {
     const { helper, request, response, model } = this.ctx;
     const { valueId, typeId } = helper.validateParams({
@@ -89,5 +97,28 @@ export default class CommentCtrl extends Controller {
       allCount,
       hasPicCount,
     };
+  }
+
+  /**
+   * @description 添加评论帖子
+   * @memberof CommentCtrl
+   */
+  public async addPost() {
+    const { request, helper, model, response, jwtSession } = this.ctx;
+    const { content, typeId, valueId } = helper.validateParams({
+      content: { type: 'string' },
+      typeId: { type: 'number' },
+      valueId: { type: 'number' },
+    }, request.body, this.ctx);
+
+    await model.Comment.create({
+      type_id: typeId,
+      value_id: valueId,
+      content,
+      add_time: new Date().getTime() / 1000,
+      user_id: jwtSession.user_id,
+    });
+
+    response.body = '评论添加成功';
   }
 }
