@@ -86,4 +86,12 @@ export default (app: Application) => {
   // 品牌相关
   router.get(apiPrefix + '/brand/detail', controller.brand.detail);
   router.get(apiPrefix + '/brand/list', controller.brand.list);
+
+  // 搜索相关
+  // 搜索历史与热门搜索
+  router.get(apiPrefix + '/search/index', controller.search.index);
+  // 实时搜索
+  router.get(apiPrefix + '/search/helper', controller.search.helper);
+  // 清除用户搜索历史
+  router.post(apiPrefix + '/search/clearhistory', controller.search.clearHistory);
 };

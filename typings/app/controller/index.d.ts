@@ -12,6 +12,7 @@ import Good from '../../../app/controller/good';
 import Home from '../../../app/controller/home';
 import Index from '../../../app/controller/index';
 import Region from '../../../app/controller/region';
+import Search from '../../../app/controller/search';
 import Topic from '../../../app/controller/topic';
 
 declare module 'egg' {
@@ -27,6 +28,7 @@ declare module 'egg' {
     home: Home;
     index: Index;
     region: Region;
+    search: Search;
     topic: Topic;
   }
 }
