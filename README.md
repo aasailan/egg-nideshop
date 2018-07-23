@@ -78,3 +78,7 @@ npm run test-local
 * sql：数据表与测试数据文件，其中egg-nideshop.sql是整体文件，其余子文件夹是拆分出的各个数据表文件。
 * test：测试用例文件夹
 * typings：项目类型生命文件夹
+
+## 下一步计划
+* 完成支付功能
+* 编写docker-compose文件，实现docker部署
