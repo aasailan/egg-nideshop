@@ -1,5 +1,5 @@
 # egg-nideshop
-本项目使用egg框架重写[**nideshop开源商城的服务端**](https://github.com/tumobi/nideshop)，网络接口与原版的nideshop服务端几乎完全一样。可以配合[**nideshop小程序端项目**](https://github.com/tumobi/nideshop-mini-program)进行联调（特别提醒：由于小程序sdk升级，原版的[**nideshop小程序端项目**](https://github.com/tumobi/nideshop-mini-program)的用户登录功能已经无法使用，我对用户登录部分代码做了修改，修改后的小程序项目点此到达）
+本项目使用egg框架重写[**nideshop开源商城的服务端**](https://github.com/tumobi/nideshop)，网络接口与原版的nideshop服务端几乎完全一样。可以配合[**nideshop小程序端项目**](https://github.com/tumobi/nideshop-mini-program)进行联调（特别提醒：由于小程序sdk升级，原版的[**nideshop小程序端项目**](https://github.com/tumobi/nideshop-mini-program)的用户登录功能已经无法使用，我对用户登录部分代码做了修改，修改后的[**小程序项目点此到达**](https://github.com/aasailan/egg-nideshop-mini-program)）
 
 本项目要点：
 * 项目模板基于egg官方脚手架的ts模板
