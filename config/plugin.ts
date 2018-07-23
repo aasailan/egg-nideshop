@@ -2,7 +2,7 @@
  * @Author: qiao
  * @Date: 2018-06-28 15:18:18
  * @Last Modified by: qiao
- * @Last Modified time: 2018-06-28 15:19:08
+ * @Last Modified time: 2018-07-17 14:47:09
  * 插件加载开关配置，所有插件都需要在这里设置开关
  */
 
@@ -22,6 +22,10 @@ const plugin: EggPlugin = {
 
   validate: {
     package: 'egg-validate',
+  },
+
+  userrole: {
+    package: 'egg-userrole',
   },
 };
 

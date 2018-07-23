@@ -18,22 +18,28 @@
     "ci": "npm run lint && npm run cov && npm run tsc",
     "autod": "autod",
     "lint": "tslint --project . -c tslint.json",
-    "clean": "ets clean"
+    "clean": "ets clean",
+    "type": "ets"
   },
   "dependencies": {
     "egg": "^2.6.1",
     "egg-cors": "^2.0.0",
     "egg-scripts": "^2.6.0",
     "egg-sequelize": "^3.1.4",
+    "egg-userrole": "^2.0.0",
     "egg-validate": "^1.0.0",
+    "jsonwebtoken": "^8.3.0",
     "module-alias": "^2.1.0",
-    "mysql2": "^1.5.3"
+    "moment": "^2.22.2",
+    "mysql2": "^1.5.3",
+    "uuid": "^3.3.2"
   },
   "devDependencies": {
+    "@types/egg-mock": "^3.0.3",
     "@types/mocha": "^2.2.40",
     "@types/node": "^7.0.12",
     "@types/sequelize": "^4.27.23",
-    "@types/supertest": "^2.0.0",
+    "@types/supertest": "^2.0.4",
     "autod": "^3.0.1",
     "autod-egg": "^1.1.0",
     "egg-bin": "^4.6.2",

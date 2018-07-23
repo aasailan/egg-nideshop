@@ -33,7 +33,14 @@
       true,
       "allow-leading-underscore"
     ],
-    "align": [true, "statements"]
+    "align": [true, "statements"],
+    "ordered-imports": [false],
+    "no-angle-bracket-type-assertion": [false],
+    
+    "no-unused-expression": [false],
+    "arrow-parens": [false],
+    "max-line-length": [true, 200],
+    "no-string-literal": false
   }
 }
 
