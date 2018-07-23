@@ -94,4 +94,12 @@ export default (app: Application) => {
   router.get(apiPrefix + '/search/helper', controller.search.helper);
   // 清除用户搜索历史
   router.post(apiPrefix + '/search/clearhistory', controller.search.clearHistory);
+
+  // 订单相关
+  // 查询订单列表
+  router.get(apiPrefix + '/order/list', needLogin, controller.order.list);
+  // 订单详情
+  router.get(apiPrefix + '/order/detail', controller.order.detail);
+  // 提交订单
+  router.post(apiPrefix + '/order/submit', controller.order.submit);
 };

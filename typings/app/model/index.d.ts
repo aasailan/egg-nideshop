@@ -19,6 +19,8 @@ import GoodGallery from '../../../app/model/good_gallery';
 import GoodIssue from '../../../app/model/good_issue';
 import GoodSpecification from '../../../app/model/good_specification';
 import Keyword from '../../../app/model/keyword';
+import Order from '../../../app/model/order';
+import OrderGood from '../../../app/model/order_good';
 import Product from '../../../app/model/product';
 import Region from '../../../app/model/region';
 import RelatedGood from '../../../app/model/related_good';
@@ -48,6 +50,8 @@ declare module 'sequelize' {
     GoodIssue: ReturnType<typeof GoodIssue>;
     GoodSpecification: ReturnType<typeof GoodSpecification>;
     Keyword: ReturnType<typeof Keyword>;
+    Order: ReturnType<typeof Order>;
+    OrderGood: ReturnType<typeof OrderGood>;
     Product: ReturnType<typeof Product>;
     Region: ReturnType<typeof Region>;
     RelatedGood: ReturnType<typeof RelatedGood>;

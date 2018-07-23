@@ -66,7 +66,7 @@ export default class CartCtrl extends Controller {
    * @memberof CartCtrl
    */
   public async delete() {
-    const { request, helper, model, response, service } = this.ctx;
+    const { request, helper, model, response, service, jwtSession } = this.ctx;
     const { productIds } = helper.validateParams({
       productIds: { type: 'string' },
     }, request.body, this.ctx);
@@ -75,7 +75,7 @@ export default class CartCtrl extends Controller {
     const productIdArr = productIds.split(',');
 
     await model.Cart.destroy({
-      where: { product_id: { [Op.in]: productIdArr } },
+      where: { product_id: { [Op.in]: productIdArr }, user_id: jwtSession.user_id },
     });
 
     response.body = await service.cart.getCart();
