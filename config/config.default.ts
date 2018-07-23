@@ -83,6 +83,17 @@ export default (appInfo: EggAppInfo) => {
     secret: 'SLDLKKDS323ssdd@#@@gf',
   };
 
+  config.sequelize = {
+    dialect: 'mysql', // support: mysql, mariadb, postgres, mssql
+    database: 'egg_nideshop',
+    host: 'localhost',
+    port: '3306',
+    username: 'root',
+    password: '12345678',
+
+    tablePrefix: 'nideshop_',
+  };
+
   config.apiPrefix = '/api';
   return config;
 };
