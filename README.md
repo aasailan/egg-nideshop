@@ -48,6 +48,7 @@
     npm install
     npm run dev
     ```
+6. egg默认监听7001端口，与nideshop小程序项目进行联调时，请记得将nideshop小程序项目的api端口改为7001。
 
 ### 调试
 
